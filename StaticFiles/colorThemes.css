@@ -1,0 +1,9 @@
+:root
+	{
+		--red : hsl(0, 100%, 65%);
+		--green : hsl(150, 100%, 80%);
+		--yellow : hsl(40, 100%, 70%);
+		--text_color_on_white: black;
+		--text_color_on_yellow: black;
+		--link_color:  hsl(240, 100%, 50%);
+	}	
