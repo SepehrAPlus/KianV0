@@ -4,7 +4,10 @@ from .models import *
 
 
 def view__IntroLandingPage(request):
-	return ""
+	return render(request, r"IntroLandingPage.html")
 
 def view__MainPage(request):
-	return ""
+	return render(request, r"MainPage.html")
+
+
+

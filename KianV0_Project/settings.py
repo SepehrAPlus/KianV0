@@ -30,11 +30,12 @@ ALLOWED_HOSTS = []
 
 
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'Media')
-MEDIA_URL = "/Media/"
-STATIC_URL = '/Static/'
+MEDIA_URL = "Media/"
+STATIC_URL = 'Static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'StaticFiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'Static'),
+    os.path.join(BASE_DIR, 'KianV0_App/static'),
 ]
 
 
@@ -65,7 +66,9 @@ ROOT_URLCONF = 'KianV0_Project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+        r"KianV0_App\templates"
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
