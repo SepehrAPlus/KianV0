@@ -1,19 +1,535 @@
+
+
+
 {% load static %}
 
 <link rel="stylesheet" href="{% static 'GlobalStyles.css' %}" type="text/css">
-<link rel="stylesheet" href="{% static 'ColorThemes.css' %}" type="text/css">
 
 <style>
 @font-face {
   font-family: nunito;
   src: url("{% static 'Vazir.ttf' %}");
 }
+/*⌕*/
+/* Color Themes */ 
+:root
+  {
+    --green :hsl(150, 100%, 80%);
+    --red :hsl(0, 100%, 65%);
+    --yellow :hsl(40, 100%, 60%);
+    --text_color_on_white: black;
+    --text_color_on_yellow: black;
+    --link_color:  hsl(240, 100%, 50%);
+    --background_dark : #32323c;
+    --general_buttons_active_color : white; 
+    --general_buttons_hover_color : var(--yellow); 
+    --general_buttons_click_color : var(--yellow);
+    --background_of_hover_button : var(--yellow);
+    
+    --color_of_hover_button_before : white;
+    --color_of_hover_button_after : white;
+
+    --color_of_hover_button_menu : black;
+    --background_color_of_hover_button_menu : var(--yellow);
+    --border_color_of_hover_button_menu : black;
 
 
-* {
-	font-family: Vazir;
+  } 
+
+
+/*button*/
+
+
+
+button {
+  position: relative;
+  background: #444;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  border: none;
+  font-size: 1rem;
+  padding: 1rem 3rem;
+  transition: 0.2s;
+}
+
+button:hover {
+  padding: 1.1rem 3.1rem;
+  background: var(--clr);
+  color: var(--clr);
+  box-shadow: 0 0 35px var(--clr)
+  animation: box 3s infinite;
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: #272822;
+}
+
+button span {
+  position: relative;
+  z-index: 1;
+}
+button i {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+button i::before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  left: 80%;
+  top: -2px;
+  border: 2px solid var(--clr);
+  background: #272822;
+  transition: 0.2s;
+}
+
+button:hover i::before {
+  width: 15px;
+  left: 20%;
+  animation: move 3s infinite;
+}
+
+button i::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  left: 20%;
+  bottom: -2px;
+  border: 2px solid var(--clr);
+  background: #272822;
+  transition: 0.2s;
+}
+
+button:hover i::after {
+  width: 15px;
+  left: 80%;
+  animation: move 3s infinite;
+}
+
+@keyframes move {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes box {
+  0% {
+    box-shadow: #27272c;
+  }
+  50% {
+    box-shadow: 0 0 25px var(--clr);
+  }
+  100% {
+    box-shadow: #27272c;
+  }
 
 }
+
+
+.more_compact_button
+	{
+		padding-top: 3px;
+		padding-bottom: 3px;
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+
+
+.yellow_button 
+	{
+		--clr : var(--yellow);
+
+	}
+
+
+
+.green_button 
+	{
+		--clr : var(--green);
+
+	}
+
+.red_button 
+	{
+		--clr : var(--red);
+
+	}
+
+
+/*
+<button style="--clr:#39FF14"><span>Button</span><i></i></button>
+
+*/
+
+/*Hovering Button Related */
+
+*
+	{
+		box-sizing: border-box;
+		font : Vazir;
+		text-align: center;
+	}
+
+.container {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+#toggle {
+  -webkit-appearance: none;
+}
+.button {
+  position: absolute;
+  z-index: 999;
+  width: 43px;
+  height: 43px;
+  background: var(--background_of_hover_button);
+  border-radius: 100%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: -12px;
+}
+.button:before {
+  position: absolute;
+  content: "";
+  width: 20px;
+  height: 2px;
+  background: var(--color_of_hover_button_before);
+  transform: rotate(90deg);
+  transition: all 0.4s ease;
+}
+.button:after {
+  position: absolute;
+  content: "";
+  width: 20px;
+  height: 2px;
+  background: var(--color_of_hover_button_after);
+  transition: all 0.4s ease;
+}
+.nav {
+  opacity: 0;
+  transition: all 0.4s ease-in-out;
+  background: var(--background_color_of_hover_button_menu);
+  width: 100%;
+  border-radius: 5px;
+  transform: translateY(0%);
+  box-shadow: 2px 3px 10px 0 rgba(81, 81, 81, 0.1);
+  border: 1px solid var(--border_color_of_hover_button_menu);
+  padding: 10px;
+}
+.nav ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.nav a {
+  text-align: center;
+  margin: 20px 0;
+  color: var(--color_of_hover_button_menu);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 100%;
+}
+.nav a:hover {
+  color: #c784dd;
+}
+#toggle:checked ~ .nav {
+  opacity: 1;
+  transform: translateY(10%);
+}
+#toggle:checked ~ .button:before {
+  transform: rotate(225deg);
+}
+#toggle:checked ~ .button:after {
+  transform: rotate(135deg);
+}
+@media (max-width: 640px) {
+  .container {
+    width: 100%;
+  }
+}
+/*
+EXAMPLE 
+
+<div class="container">
+  <input type="checkbox" id="toggle" checked/>
+  <label class="button" for="toggle"></label>
+  <nav class="nav">
+    <ul>
+      <a href="http://sashatran.com" target="_blank">About</a>
+      <a href="https://codepen.io/sashatran/pens/public/" target="_blank">Home</a>
+      <a href="https://www.linkedin.com/in/sasha-tran-23498989/" target="_blank">Hire Me</a>
+      <a href="https://www.youtube.com/channel/UCCATAa8MWoBuH-sR_Jlx29A" target="_blank">Subscribe</a>
+    </ul>
+  </nav>
+</div>
+
+
+*/
+
+/* Product card related */
+
+/*
+========================
+Variables
+========================
+*/
+
+
+:root {
+    
+    
+    /* Primary */
+    --var-soft-blue: hsl(215, 51%, 70%);
+    --var-cyan: hsl(178, 100%, 50%);
+    /* Neutral */
+    --var-main-darkest: hsl(217, 54%, 11%);
+    --var-card-dark: hsl(216, 50%, 16%);
+    --var-line-dark: hsl(215, 32%, 27%);
+    --var-lightest: white;
+    
+    /* Fonts */
+    
+    --var-heading: normal normal 600 1.5em/1.6em 'Outfit', sans-serif;
+    
+    --var-small-heading: normal normal 400 1em/1em 'Outfit', sans-serif;
+    
+    --var-para: normal normal 300 1em/1.55em 'Outfit', sans-serif;
+}
+
+
+
+
+
+img {
+    width: 100%;
+    border-radius: 15px;
+    display: block;
+}
+
+a {
+    color: inherit;
+
+}
+
+
+
+/* LAYOUT */
+
+.card-container {
+    width: 80%;
+    height: content;
+    margin: 0.5em ;
+    background: #444;
+    border-radius: 15px;
+    padding: 0.5em;
+    scale: 1;
+
+}
+
+div.flex-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    gap : 0px;
+}
+
+div.card_info, .card-attribute {
+    display: flex;
+    align-items: center;
+    padding: 1em 0;
+    align-content: center;
+}
+
+.card-attribute {
+    padding-bottom: 1.5em;
+    border-top: 2px solid var(--var-line-dark);
+}
+
+a.product_image-container {
+    position: relative;
+    display: block;
+}
+
+
+.product_title
+	{
+		color: white;
+		margin: 0;
+		font-size: large;
+	}
+
+
+.product_caption
+	{
+		color: white;
+		margin: 0;
+		font-size: small;
+		height: fit-content;
+	}
+
+.price
+	{
+		color: var(--green);
+		margin : 0px;
+		padding: 0px;
+		font-size: medium;
+		height: fit-content;
+	}
+.market_price
+	{
+		color: var(--red);
+		margin : 0px;
+		padding: 0px;
+		font-size: medium;
+		height: fit-content;
+	}
+.order_count
+	{
+		color: white;
+		margin : 0px;
+		padding: 0px;
+		font-size: medium;
+		height: fit-content;
+	}
+
+/* Details */
+
+
+@media (min-width:400px) {
+  img.eye {
+    max-width: 3em;
+}
+}
+
+
+
+
+
+
+
+
+
+div.attribution {
+    margin: 0 auto;
+    width: 100%;
+    font: var(--var-para);
+    text-align: center;
+    padding: 1.5em 0 4em 0;
+    color: var(--var-line-dark);
+}
+.attribution a {
+    color: var(--var-soft-blue);
+}
+
+@media (min-width:600px) {
+    body {
+        font-size: 18px;
+    }
+}
+
+
+/* Example 
+<div class="card-container" style="scale: 0.5;margin-top: 2em;background: #262626;">
+      <a href="/" class="product_image-container">
+        <img class="product_image" src="">
+      </a>
+      <main class="main-content">
+        <h1><a style="color: white;">عنوان کالا</a></h1>
+        <p style="color: white;">یه توضحی از کالا که به نظر میاد طولانی باشه و انقد طولانی هست که باید تو چن خط جا شبه و خب این نیازه</p>
+        <div class="flex-col">
+          <div class="card_info" style="padding-top: 0px;padding-bottom: 0px;">
+            <h2 style="color: #78f0ad;display: block; text-align: right;margin-top: 0px;margin-bottom: 0px;">قیمت ما : T40</h2>
+          </div>
+          <div class="card_info" style="padding-top: 0px;padding-bottom: 0px;">
+            <h2 style="color: #ee5353;display: block;margin-top: 0px;margin-bottom: 0px; text-align: center;">قیمت بازار : T40</h2>
+          </div>
+          <div class="card_info" style="color: #ffab0c;padding-top: 0px;padding-bottom: 0px;">
+            <p style="margin-top: 0px;margin-bottom: 0px; text-align: center;">تا الان 48 نفر اینو خریدن</p>
+          </div>
+        </div>
+      </main>
+      <div class="card-attribute">
+
+      </div>
+    </div>
+
+
+
+
+*/
+
+/* Classes */
+
+
+
+
+.MainAppFlexBox
+	{
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+		width: 100vw;
+		justify-content: center;
+	}
+
+
+.AppHeader
+	{
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+
+
+.ShopItem
+	{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+.nothing
+	{}
+
+
+.ShopItemList
+	{
+		display: flex;
+		width: 100%;
+		height: 100%;
+		flex-direction: column;
+		justify-content: center;
+		overflow: scroll;
+	}
+
+body
+	{
+		background: black;
+	}
+
+
+
 
 </style>
 
@@ -21,6 +537,155 @@
 
 
 <script>
+const EID_MainAppFlex = 'MainAppFlex';
+	
+function MakeAndReturn__MainAppFlexBox()
+	{
+		let output = document.createElement("div")
+		output.classList.add("MainAppFlexBox")
+		return output
+	}
+
+function MakeAndReturn__Button(innerText, onclick, additional_style_class)
+	{
+		/*
+		<button style="--clr:#39FF14">
+			<span>Button</span>
+			<i></i>
+		</button>
+		*/
+
+		let output = document.createElement("button")
+		output.classList.add(additional_style_class)
+		let span = document.createElement("span")
+		span.innerText = innerText
+		output.appendChild(span)
+		/*output.appendChild(document.createElement('i'))*/
+		return output
+
+
+	}
+
+function MakeAndReturn__ComapctButton(innerText, onclick, additional_style_class)
+	{
+		let output = MakeAndReturn__Button(innerText, onclick, additional_style_class)
+		output.classList.add("more_compact_button")
+		return output
+
+
+	}
+
+
+function MakeAndReturn__ShopItem(title_text, caption_text, price_text, market_pric_text, order_count_text, id_of_item_text, image_link)
+	{
+		function MakeAndReturn__CardInfo(innerText, text_class)
+			{
+				let output = document.createElement('div')
+				let h2 = document.createElement('h2')
+				h2.innerText = innerText
+				h2.classList.add(text_class)
+				output.appendChild(h2)
+				return output
+
+			}
+		let output = document.createElement('div')
+		output.classList.add('card-container')
+
+		let prod_image_container = document.createElement("a")
+		prod_image_container.classList.add("prod_image_container")
+		output.appendChild(prod_image_container)
+
+		let image = document.createElement("img")
+		image.src = image_link;
+		prod_image_container.appendChild(image)
+
+		let info_div = document.createElement("div")
+		output.appendChild(info_div)
+
+		let product_title = document.createElement("h1")
+		product_title.classList.add("product_title")
+		product_title.innerText = title_text
+		info_div.appendChild(product_title)
+
+
+		let prod_caption = document.createElement("p")
+		prod_caption.innerText = caption_text
+		prod_caption.classList.add("product_caption")
+		info_div.appendChild(prod_caption)
+
+
+		let flex_col = document.createElement("div")
+		flex_col.classList.add("flex-col")
+		info_div.appendChild(flex_col)
+
+		price_text = "قیمت ما :" + price_text
+		let price = MakeAndReturn__CardInfo(price_text, "price")
+		info_div.appendChild(price)
+
+		market_pric_text = "قیمت بازار :" + market_pric_text
+		let market_price = MakeAndReturn__CardInfo(market_pric_text, "market_price")
+		info_div.appendChild(market_price)
+
+		order_count_text = "تعداد کسایی که سفارش دادن :" + order_count_text
+		let order_count = MakeAndReturn__CardInfo(order_count_text, "order_count")
+		info_div.appendChild(order_count)
+
+
+
+		let copy_text = "کپی"
+		let copy_button = MakeAndReturn__Button(copy_text, function(){}, "green_button")
+		info_div.append(copy_button)
+
+
+		return output
+	}
+
+
+
+function MakeAndReturn__ShopItemList()
+	{
+		let output = document.createElement("div")
+		output.classList.add("ShopItemList")
+
+		output.add_tetsting_shop_item = function () 
+			{
+				let title_text = "مداد"
+				let caption_text = `
+				مداد
+				خیلی کارا میتونید باهاش بکنید
+				خیلی کارار
+				از دستتون رفته نخرید
+				اره
+				`
+				let price_text = "48t"
+				let market_pric_text = "50t"
+				let order_count_text = "12"
+				let id_of_item_text = "11111"
+				let image_link = "http://127.0.0.1:8000/Media/1693470896__Pencils_hb.jpg"
+				let n = MakeAndReturn__ShopItem(title_text, caption_text, price_text, market_pric_text, order_count_text, id_of_item_text, image_link)
+				output.appendChild(n)
+			}
+
+		output.add_shop_item = function (title_text,caption_text,price_text,market_pric_text,order_count_text,id_of_item_text,image_link,)
+			{
+				let n = MakeAndReturn__ShopItem(title_text, caption_text, price_text, market_pric_text, order_count_text, id_of_item_text, image_link)
+				output.appendChild(n)
+			}
+		return output
+
+	}
+
+function add_to_body(el)
+	{
+		document.body.appendChild(el);
+	}
+
+function uh()
+	{
+		alert("uh")
+	}
+
+
 
 </script>
 
@@ -33,8 +698,21 @@
 
 	<body>
 
+		<script>
+			let MainAppFlexBox = MakeAndReturn__MainAppFlexBox()
+			let ShopItemList = MakeAndReturn__ShopItemList()
+			add_to_body(MainAppFlexBox)
+
+			function add_to_MainAppFlexBox(el)
+				{
+					MainAppFlexBox.appendChild(el)
+				}
+
+			add_to_MainAppFlexBox(ShopItemList)
+		</script>
 
 
+		
 
 	</body>
 
