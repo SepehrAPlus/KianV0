@@ -58,7 +58,6 @@
 
 		border-width: 2px;
 		border-style: solid;
-		font-family: monospace;
 
 		transform: translateY(0px);
 		transition: transform 0.3s;
@@ -82,7 +81,7 @@
 .NiceLookingButton:active
 	{
 		transition: transform 0.1s, color 0.1s;
-		transform: translateY(5px) scale(1.1);
+		transform: translateY(5px);
 		color: var(--bgclr);
 		background-color: var(--clr);
 	}
@@ -124,6 +123,8 @@
 		border-radius: 5px;
 		align-items: center;
 		justify-content: space-between;
+		padding-top: 0.25em;
+		padding-bottom: 0.25em;
 
 	}
 
@@ -164,9 +165,110 @@
 		flex-direction: column;
 	}
 
+
+/********/
+.ScreenBlackner
+	{
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		background-color: rgba(0,0,0, 0.5);
+		z-index: 4;
+		height: 100vh;
+		width: 100vw;
+		visibility: hidden;
+	}
+
+.ItemDetailedDialog
+	{
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding: 0px;
+		width: 80vw;
+		border-radius: 18px;
+		border-width: 2px;
+		border-color: var(--green);
+		z-index: 5;
+
+
+	}
+
+.Flex_For_ItemDetailedDialog
+	{
+		display: flex;
+		justify-content: space-between;
+		flex-direction: column;
+		padding: 1em;
+		align-items: center;
+	}
+
+
+.DataSegement_For_ItemDetailedDialog
+	{
+		margin-top: 0px;
+		margin-bottom: 1em;
+		text-align: center;
+
+
+	}
+
+.Title_For_ItemDetailedDialog
+	{
+		font-size: 1.5rem;
+
+	}
+
+.Caption_For_ItemDetailedDialog
+	{
+		font-size: 0.75rem;
+		white-space: pre;
+
+	}
+
+.Price_For_ItemDetailedDialog
+	{
+		color: var(--green);
+
+	}
+
+.MarketPrice_For_ItemDetailedDialog
+	{
+		color: var(--red);
+
+	}
+
+.OrderCounter_For_ItemDetailedDialog
+	{
+
+	}
+
+.ItemId_For_ItemDetailedDialog
+	{
+		color: grey;
+		text-decoration: underline;
+
+	}
 </style>
 
+
+
 <script>
+
+/******RESERVED VARIABLES*****/
+let itemDetailedDialog = null
+
+function HideElement(el)
+	{
+		el.style.visibility = "hidden"
+	}
+
+function MakeElemnetVisible(el)
+	{
+		HideElement(el)
+		el.style.visibility = ""
+	}
+
 function MakeAndReturnButton(innerText, onclick)
 	{
 
@@ -223,7 +325,9 @@ function MakeAndReturn__IdInfoSegment(value)
 
 function MakeAndReturn__PriceInfoSegment(value)
 	{
-		let output = MakeAndReturn__InfoSegment(value)
+		let extra = "ما"
+		let currency = "تومن"
+		let output = MakeAndReturn__InfoSegment(extra+value+currency)
 		output.classList.add("PriceInfoSegment")
 		return output
 	}
@@ -232,7 +336,9 @@ function MakeAndReturn__PriceInfoSegment(value)
 
 function MakeAndReturn__MarketPriceInfoSegment(value)
 	{
-		let output = MakeAndReturn__InfoSegment(value)
+			let extra = "بازار"
+		let currency = "تومن"
+		let output = MakeAndReturn__InfoSegment(extra+value+currency)
 		output.classList.add("MarketPriceInfoSegment")
 		return output
 
@@ -257,8 +363,11 @@ function MakeAndReturn__PricesInfoSegment(price, market_price)
 
 
 
-function MakeAndReturn__ShopItemListDispaly(title, price, market_price, id_of_item)
+function MakeAndReturn__ShopItemListDispaly(title, price, market_price, id_of_item, caption, order_count)
 	{
+
+
+
 		let output = document.createElement("div")
 		output.classList.add("ShopItemListDispaly")
 
@@ -269,7 +378,18 @@ function MakeAndReturn__ShopItemListDispaly(title, price, market_price, id_of_it
 		output.appendChild(prices_info_s)
 
 
-		let more_button = MakeAndReturn__Button_SafeGreen("More", DoNothing)
+		let more_button_title = "..."
+		let more_button_on_click = function ()
+			{
+				itemDetailedDialog.SetData
+					(
+					title, price, market_price, id_of_item, caption, order_count
+					)
+
+
+				itemDetailedDialog.show()
+			}
+		let more_button = MakeAndReturn__Button_SafeGreen(more_button_title, more_button_on_click)
 		output.appendChild(more_button)
 
 		return output
@@ -289,13 +409,168 @@ function MakeAndReturn__ShopItemList()
 
 		output.add_testing_item = function ()
 			{
-				let n = MakeAndReturn__ShopItemListDispaly("testing very long title so it must work", "48$", "50$", "45")
+				let title = "یه عنوان نسبتا طولانی اره طولانی باشه"
+				let price = "48"
+				let market_price = "50"
+				let order_count = "120"
+				let caption = `
+بادمجون بنفش22سانت 🍆
+برند ابرجین
+ساخت بلژیک
+پوست نازک 
+صفت و ضخیم 
+قابل استفاده برای چندبار 
+🍆🍆🍆🍆🍆
+				`
+				let n = MakeAndReturn__ShopItemListDispaly(title, price, market_price, order_count, caption, "418")
 				output.appendChild(n)
 			}
 
 		return output
 	}
 
+
+function MakeAndReurn_ScreenBlackner()
+	{
+		let output = document.createElement('div')
+		output.classList.add("ScreenBlackner")
+		return output
+	}
+
+function MakeAndReturn__ItemDetailedDialog()
+	{
+		function MakeAndReturn__DataSegement_For_ItemDetailedDialog(prefix)	
+			{
+				let output = document.createElement("p")
+				output.classList.add('DataSegement_For_ItemDetailedDialog')
+
+				output.setText = function(text)
+					{
+						output.innerText =  text + prefix
+					}
+
+				return output
+			}
+
+		function MakeAndReturn__Title_For_ItemDetailedDialog()
+			{
+				let output = MakeAndReturn__DataSegement_For_ItemDetailedDialog("")
+				output.innerText = ""
+				output.classList.add("Title_For_ItemDetailedDialog")
+
+				return output
+			}
+
+		function MakeAndReturn__Caption_For_ItemDetailedDialog()
+			{
+				let output = MakeAndReturn__DataSegement_For_ItemDetailedDialog("")
+				output.innerText = `
+بادمجون بنفرش22سانت 🍆
+برند ابرجین
+ساهت بلژیک
+پوست نازیک 
+صفت و ضخیم 
+قابل استفاده برای چندبار 
+🍆🍆🍆🍆🍆
+				`
+
+
+
+				output.classList.add('Caption_For_ItemDetailedDialog')
+
+				return output
+			}
+
+		function MakeAndReturn__Price_For_ItemDetailedDialog()
+			{
+				let output = MakeAndReturn__DataSegement_For_ItemDetailedDialog("قیمت ما")
+				output.innerText = ""
+				output.classList.add('Price_For_ItemDetailedDialog')
+
+				return output
+			}
+
+		function MakeAndReturn__MarketPrice_For_ItemDetailedDialog()
+			{
+				let output = MakeAndReturn__DataSegement_For_ItemDetailedDialog("قیمت بازار")
+				output.innerText = ""
+				output.classList.add("MarketPrice_For_ItemDetailedDialog")
+
+				return output
+			}
+
+
+
+		function MakeAndReturn__OrderCounter_For_ItemDetailedDialog()
+			{
+				let output = MakeAndReturn__DataSegement_For_ItemDetailedDialog("تعداد سفارش تا الان:\n")
+				output.innerText = "185 نفر سفارش دادن"
+				output.classList.add("OrderCounter_For_ItemDetailedDialog")
+
+				return output
+			}
+
+
+		function MakeAndReturn__ItemId_For_ItemDetailedDialog()
+			{
+				let output = MakeAndReturn__DataSegement_For_ItemDetailedDialog("شناسه")
+				output.classList.add("ItemId_For_ItemDetailedDialog")
+				output.innerText = "شناسه:1856"
+
+				return output
+			}
+		//******************************************
+		let output = document.createElement("dialog")
+		output.classList.add("ItemDetailedDialog")
+
+		let flex = document.createElement("div")
+		flex.classList.add('Flex_For_ItemDetailedDialog')
+		output.appendChild(flex)
+
+		let title_s = MakeAndReturn__Title_For_ItemDetailedDialog()
+		flex.appendChild(title_s)
+
+
+
+		let caption_s = MakeAndReturn__Caption_For_ItemDetailedDialog()
+		flex.appendChild(caption_s)
+
+		let price_s = MakeAndReturn__Price_For_ItemDetailedDialog()
+		flex.appendChild(price_s)
+
+		let market_price_s = MakeAndReturn__MarketPrice_For_ItemDetailedDialog()
+		flex.appendChild(market_price_s)
+
+		let order_count_s = MakeAndReturn__OrderCounter_For_ItemDetailedDialog()
+		flex.appendChild(order_count_s)
+
+		let id_s = MakeAndReturn__ItemId_For_ItemDetailedDialog()
+		flex.appendChild(id_s)
+
+		let dialog_closer_button_onclick = function ()
+			{
+				output.close()
+			}
+		let dialog_closer_button= MakeAndReturn__Button_SafeGreen("ببند", dialog_closer_button_onclick)
+		flex.appendChild(dialog_closer_button)
+
+
+		output.SetData = function (title, price, market_price, id_of_item, caption, order_count)
+			{
+			title_s.setText(title)
+			caption_s.setText(caption)
+			price_s.setText(price)
+			market_price_s.setText(market_price)
+			order_count_s.setText(order_count)
+			id_s.setText(id_of_item)
+			}
+
+		return output
+
+
+
+
+	}
 </script>
 
 <html>
@@ -307,7 +582,20 @@ function MakeAndReturn__ShopItemList()
 <body>
 	<script>
 		let ShopItemList = MakeAndReturn__ShopItemList()
+		let ScreenBlackner = MakeAndReurn_ScreenBlackner()
+		itemDetailedDialog = MakeAndReturn__ItemDetailedDialog()
+		add_to_body(ScreenBlackner)
 		add_to_body(ShopItemList)
+		add_to_body(itemDetailedDialog)
+		ShopItemList.add_testing_item()
+		ShopItemList.add_testing_item()
+		ShopItemList.add_testing_item()
+		ShopItemList.add_testing_item()
+		ShopItemList.add_testing_item()
+		ShopItemList.add_testing_item()
+		ShopItemList.add_testing_item()
+		ShopItemList.add_testing_item()
+		ShopItemList.add_testing_item()
 	</script>
 	
 </body>
