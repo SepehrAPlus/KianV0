@@ -11,12 +11,14 @@ def generate_image_path(instance, file_name):
 
 class ShopItem(models.Model):
   title = models.CharField(max_length=248)
-  image = models.ImageField(upload_to=generate_image_path)
-  caption = models.TextField(max_length=400, default="")
   mareket_price = models.FloatField(default=0.0)
   offered_price = models.FloatField(default=0.0)
-  is_is_stock = models.BooleanField(default=True)
   order_count = models.IntegerField(default=0)
+  caption = models.TextField(max_length=400, default="")
+  #will be using id of model
+  image = models.ImageField(upload_to=generate_image_path)
+  is_is_stock = models.BooleanField(default=True)
+  
 admin.site.register(ShopItem)
 
 class ViewCounter(models.Model):
